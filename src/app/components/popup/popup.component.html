@@ -1,0 +1,36 @@
+<form [formGroup]="myform"  (ngSubmit)="saveSupplier()">
+<h1 matDialogTitle> Add Supplier</h1>
+
+<mat-dialog-content class="flex flex-col gap-2">
+      <mat-form-field class="w-[80%] ">
+        <mat-label>Id</mat-label>
+        <input class=" w-[80%]" formControlName="id" matInput>
+      </mat-form-field>
+      <mat-form-field class="w-[80%]">
+        <mat-label >Name</mat-label>
+        <input class="w-[80%]"  formControlName="name"  matInput>
+      </mat-form-field>
+      <mat-form-field class="w-[80%]">
+        <mat-label>Address</mat-label>
+        <input  formControlName="address"  matInput>
+      </mat-form-field>
+      <mat-form-field class="w-[80%]">
+        <mat-label>Phone_Number</mat-label>
+        <input  formControlName="phone" matInput>
+      </mat-form-field >
+      <mat-form-field class="w-[80%]">
+        <mat-label>Email</mat-label>
+        <input formControlName="email"  matInput>
+      </mat-form-field>
+      <mat-form-field class="w-[80%]">
+        <mat-label>Supplier_Picture</mat-label>
+        <input formControlName="picture"  matInput>
+      </mat-form-field>
+</mat-dialog-content>
+
+  <mat-dialog-actions>
+      <button color="warn" mat-raised-button (click)="closePopup()">Close</button>
+      <button mat-raised-button color="primary">Save</button>
+  </mat-dialog-actions>
+
+</form>

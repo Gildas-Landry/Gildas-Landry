@@ -1,0 +1,107 @@
+<!-- Nav bar -->
+<div class="nav fixed max-phone:h-16  desktop:ml-[250px] right-0 z-20 w-full flex items-center bg-white brightness- h-14 top-0
+  bg-fixed shadow-2xl ">
+  <div (click)="showSidenav()" class="desktop:hidden mt-4 text-center">
+    <mat-icon  size="60" class="w-6" color="primary" >menu</mat-icon>
+  </div>
+    <div class="ml-2 font-bold font-sans text-[18px] flex text-center space-x-1">
+      <span class="mt-3">Stock Manage</span>
+    </div>
+
+  <div class="ml-[130px]">
+    <input class=" max-desktop:hidden px-2 outline-none opacity-40 placeholder:ml-3 rounded-md h-10 w-60 bg-[#71adaf4e]" placeholder="search" type="search">
+  </div>
+  <div class="right-5 absolute max-phone:w-fit " >
+    <img  width="50px" height="50px" class="rounded-[50%]" src="./../../../assets/images/navi.png" alt="">
+  </div>
+</div>
+
+<!-- side nav -->
+<div class="con pl-2 max-desktop:text-white desktop:pt-16 side-nav absolute rounded-tr-3xl max-desktop:z-20 border-x-[1px] top-0 max-desktop:overflow-scroll
+w-[240px] max-desktop:min-h-screen min-h-[800px] desktop:text-white desktop:mr-2 desktop:border-r-2 desktop:border-white
+bg-[#1357ebea] space-y-4 shadow-md max-desktop:hidden  laptop:w-[300px] max-desktop:w-[300px] phone:w-[250px] desktop:w-[250px]">
+  <div (click)="closeSidenav()" class="absolute right-1 top-1 desktop:hidden ">
+    <mat-icon class="mat-18">close</mat-icon>
+  </div>
+  <div class="desktop:hidden  max-desktop:justify-items-center ml-16 ">
+    <img  width="100px" height="100px" class="rounded-[100%]" src="./../../../assets/images/navi.png" alt="">
+      <span class="ml-4" >Username</span>
+  </div>
+  <div class="ml-2 mt-[10px] desktop:mt-[200px] flex flex-col ">CORE
+
+    <div routerLink="/dashboard" class="ml-2 relative hover:text-[#135beb] hover:font-semibold hover:bg-white space-x-1  hover:transition-all hover:-ml-3
+      hover:bg-opacity-100 p-2 hover:p-2 cursor-pointer desktop:hover:bg-gray-200"
+    >
+      <mat-icon class="mat-38 ">home</mat-icon>
+      <span  class="absolute mt-[4px]"> Dashboard</span>
+    </div>
+
+    <div  routerLink="/dashboard/pos" class="ml-2 group-checked:text-[#135beb] hover:text-[#135beb] space-x-1
+      hover:bg-white hover:font-semibold hover:transition-all hover:bg-opacity-100 hover:-ml-3 p-2 hover:p-2 cursor-pointer
+      desktop:hover:bg-gray-200 ">
+    <mat-icon class="mat-38 ">point_of_sale</mat-icon>
+    <span class="absolute mt-[4px]" >Pos</span>
+
+  </div>
+  </div>
+  <!-- <div class="ml-2 flex flex-col space-y-4">ORDERS
+    <span class="mt-4 ml-5">Complete</span>
+    <span  class="ml-5">Pending</span>
+    <span  class="ml-5">Due</span>
+  </div> -->
+  <div class="ml-2 flex flex-col ">PURCHASES
+    <div routerLink="/dashboard/suppliers" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointer space-x-1" >
+      <mat-icon class="mat-18">all_inclusive</mat-icon>
+      <span class="absolute mt-[4px]">All</span>
+    </div>
+    <div routerLink="/dashboard/suppliers" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointer space-x-1" >
+      <mat-icon class="mat-18">library_add_check</mat-icon>
+      <span class="absolute mt-[4px]">Approval</span>
+    </div>
+    <div routerLink="/dashboard/suppliers" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointe space-x-1" >
+      <mat-icon class="mat-18">report</mat-icon>
+      <span class="absolute mt-[4px]">Daily Purchase Report</span>
+    </div>
+  </div>
+  <div class="ml-2 flex flex-col ">PAGES
+    <div routerLink="/dashboard/suppliers" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointer space-x-1" >
+      <mat-icon class="mat-18">factory</mat-icon>
+      <span class="absolute mt-[4px]">Suppliers</span>
+    </div>
+    <div routerLink="/dashboard/sales" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointer space-x-1" >
+      <mat-icon class="mat-18">money_off</mat-icon>
+      <span class="absolute mt-[4px]">Sales</span>
+    </div>
+
+
+    <div routerLink="/dashboard/products" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointer space-x-1" >
+      <mat-icon class="mat-18">shop</mat-icon>
+      <span class="absolute mt-[4px]">Products</span>
+    </div>
+    <div routerLink="/dashboard/categories" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointer space-x-1" >
+      <mat-icon class="mat-18">category</mat-icon>
+      <span class="absolute mt-[4px]">Categories</span>
+    </div>
+    <div class="mt-28 max-desktop:mt-2 brightness-200 font-bold text-[20px] space-x-2">
+      <mat-icon class="mat-18 ">logout</mat-icon>
+      <span routerLink="/login" class="absolute mt-[2px] tracking-wider">Logout</span>
+    </div>
+  </div>
+
+  <!-- Here is my side bar footer -->
+ <div class="footer text-gray-950 -ml-2 absolute flex flex-col desktop:w-[250px] laptop:w-[300px] phone:w-[250px] bottom-0 h-20 p-5 bg-white">
+    <span class="">Logged in as:</span>
+    <span>Admin</span>
+  </div>
+  <!-- end of side nav footer -->
+</div><!-- end side nav -->
+
+
+
