@@ -2,6 +2,11 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { SharedModule } from './shared/shared.module';
 import { FormsModule } from '@angular/forms';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+
+// import { TableModule } from 'primeng/table';
+// import { DropdownModule } from 'primeng/dropdown';
+// import { ButtonModule } from 'primeng/button';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,7 +22,6 @@ import { MatSortModule } from '@angular/material/sort';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 
-
 // import ngx-translate and the http loader
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
@@ -31,6 +35,10 @@ import { CategoriesComponent } from './pages/categories/categories.component';
 import { SalesComponent } from './pages/sales/sales.component';
 import { PopupComponent } from './components/popup/popup.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PurchaseComponent } from './pages/purchase/purchase.component';
+import { CatPopupComponent } from './pages/categories/cat-popup/cat-popup.component';
+import { ProdPopupComponent } from './pages/products/prod-popup/prod-popup.component';
+import { RegistrationComponent } from './components/registration/registration.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +51,10 @@ import { ReactiveFormsModule } from '@angular/forms';
     CategoriesComponent,
     SalesComponent,
     PopupComponent,
-
+    PurchaseComponent,
+    CatPopupComponent,
+    ProdPopupComponent,
+    RegistrationComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +71,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatSortModule,
     MatInputModule,
     MatAutocompleteModule,
-    // ngx-translate and the loader module
+    MatSnackBarModule,
     HttpClientModule,
     TranslateModule.forRoot({
         loader: {
@@ -70,7 +81,10 @@ import { ReactiveFormsModule } from '@angular/forms';
         }
     }),
     AppRoutingModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    // TableModule,
+    // DropdownModule,
+    // ButtonModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -4,7 +4,7 @@ export interface Supplier{
   phone_number:string;
   email:string;
   address:string
-
+  supplier_picture:string;
 // constructor(){
 //   this.name="entrer un nom";
 //   this.id=0

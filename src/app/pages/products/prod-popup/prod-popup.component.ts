@@ -1,51 +1,49 @@
-import { Supplier } from './../../Supplier';
+
 import { createInjectableType } from '@angular/compiler';
 import { Component, Inject, OnInit,NgZone, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormGroup,FormControl,Validators, FormBuilder } from '@angular/forms';
-import { MasterService } from 'src/app/master.service';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 import { SuppliersComponent } from 'src/app/pages/suppliers/suppliers.component';
-
-
-
+import { ProdService } from '../prod-service.service';
 @Component({
-  selector: 'app-popup',
-  templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.css']
+  selector: 'app-prod-popup',
+  templateUrl: './prod-popup.component.html',
+  styleUrls: ['./prod-popup.component.css']
 })
-export class PopupComponent implements OnInit {
-  supplierForm:FormGroup;
-  constructor(@Inject (MAT_DIALOG_DATA) public data:any ,private ref:MatDialogRef<PopupComponent>
-  ,private master:MasterService, private http:HttpClient,private router:Router,private builder:FormBuilder,
+export class ProdPopupComponent implements OnInit {
+  productForm:FormGroup;
+  constructor(@Inject (MAT_DIALOG_DATA) public data:any ,private ref:MatDialogRef<ProdPopupComponent>
+  ,private prodservice:ProdService, private http:HttpClient,private router:Router,private builder:FormBuilder,
   private dialogRef:MatDialogRef<SuppliersComponent>)
   {
 
-    this.supplierForm=this.builder.group(
+    this.productForm=this.builder.group(
   {
 
-    name:'',
-    address:'',
-    phone_number:'',
-    email:'',
-    supplier_picture:''
+    product_name:'',
+    product_image:'',
+    retail_quantity_stocked:'',
+    selling_price:'',
+    category_id:'',
+    bulk_quantity_stocked:'',
+    cost_price:''
   });
    }
 
   ngOnInit(): void {
-    this.supplierForm.patchValue(this.data);
+    this.productForm.patchValue(this.data);
   }
   closePopup(){
     this.ref.close();
   }
 
-  saveProduct(){
-    if(this.supplierForm.valid){
+  saveSupplier(){
+    if(this.productForm.valid){
       if(!this.data){
-        console.log(this.supplierForm.value)
-        this.master.addSupplier(this.supplierForm.value).subscribe(() =>
+        console.log(this.productForm.value)
+        this.prodservice.addproduct(this.productForm.value).subscribe(() =>
         {
           alert('Supplier added succesfully');
           this.dialogRef.close(true);
@@ -53,7 +51,7 @@ export class PopupComponent implements OnInit {
         })
       }
       else{
-        this.master.updateSupplier(this.data.id,this.supplierForm.value).subscribe(() =>
+        this.prodservice.updateproduct(this.data.id,this.productForm.value).subscribe(() =>
         {
           alert('Supplier updated succesfully');
           this.dialogRef.close(true);

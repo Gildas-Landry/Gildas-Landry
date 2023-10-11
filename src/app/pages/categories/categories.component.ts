@@ -1,8 +1,13 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import {  ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {  MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { Supplier } from 'src/app/Supplier';
+import { CatPopupComponent } from './cat-popup/cat-popup.component';
+import { CategoriesService } from './categories.service.ts.service';
 
 @Component({
   selector: 'app-categories',
@@ -11,21 +16,75 @@ import {MatTableDataSource} from '@angular/material/table';
 })
 export class CategoriesComponent implements OnInit {
 
-  constructor() { }
+  displayedColumns = ['id', 'category_name', 'description','action'];
+  dataSource!:MatTableDataSource<any>;
 
-  ngOnInit(): void {
+  @ViewChild(MatSort)sort!: MatSort;
+  @ViewChild(MatPaginator)paginator!: MatPaginator;
+
+
+  constructor( private dialog:MatDialog ,private catservice:CategoriesService) {
+
   }
 
-  displayedColumns = ['id', 'category_name', 'description','action'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  ngOnInit(): void {
+    this.getCategory();
+  }
+
+  openModal(){
+    const dialogRef=this.dialog.open(CatPopupComponent,{
+      width:'50%',
+      height:'400px',
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val)=>{
+        if(val){
+          this.getCategory();
+        }
+      },
+    })
+  }
 
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('paginator') paginator !: MatPaginator;
+  getCategory(){
+    this.catservice.getcategories().subscribe(
+      {
+        next: (response) =>
+        {
+          this.dataSource=new MatTableDataSource<Element>(response);
+          console.log('categories',response);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort=this.sort;
+        },
+          error:console.log
+        });
+  }
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort=this.sort;
+  editCategory(data:any){
+    const  dialogRef= this.dialog.open(CatPopupComponent,{data,});
+     dialogRef.afterClosed().subscribe({
+       next: (val)=>{
+         if(val){
+           this.getCategory();
+           console.log('there is data');
+         }
+       },
+     })
+   }
+
+
+  deleteCategory(id:number){
+
+    this.catservice.deletecategoryById(id).subscribe(
+    {
+        next: (response)=>
+        {
+          console.log(this.getCategory());
+          alert('Are you sure to delete this category?');
+          this.getCategory();
+        },
+      //error:console.log
+    })
   }
 
 applyFilter(filterValue:string) {
@@ -47,20 +106,3 @@ clearSearchResult(filterValue:string){
   }
 
 }
-export interface Element {
-  id: number;
-  category_name: string;
-  description:string;
-
-}
-const ELEMENT_DATA: Element[] = [
-  {id: 1, category_name: 'shopping', description:'ici vous retrouvriez tout ce qui concerne la beaute'},
-  {id: 2, category_name: 'food', description:'ici vous retrouvriez tout ce qui concerne la nourriture' },
-  {id: 3, category_name: 'house', description:'Here you will see all about household equipments ' },
-  {id: 4, category_name: 'school',description:'ici vous retrouvriez tout ce qui concerne la beaute' },
-  {id: 5, category_name: 'hahhhhsh', description:'ici vous retrouvriez tout ce qui concerne la beaute' },
-  {id: 6, category_name: 'Chgdgdg', description:'ici vous retrouvriez tout ce qui concerne la beaute' },
-  {id: 7, category_name: 'uyuegd', description:'ici vous retrouvriez tout ce qui concerne la beaute'},
-  {id: 8, category_name: 'yu4yuehge', description:'hello woldd'},
-  {id: 9, category_name: 'iuyiyuee',description:'ici vous retrouvriez tout ce qui concerne la beaute' }
-];

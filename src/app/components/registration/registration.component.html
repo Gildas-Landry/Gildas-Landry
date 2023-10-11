@@ -1,0 +1,46 @@
+<div class="bg-[#135beb] h-[800px] w-full brightness-100 absolute overflow-x-scroll">
+  <div class="con py-2 bg-contain max-w-[500px] m-auto mb-20 mt-10 max-tablet:mx-2
+  bg-white rounded-md shadow-md ">
+    <div class="text-center w-auto mt-6 text-2xl font-bold">Create Account
+
+    </div>
+      <div class="mt-5 mb-6 max-w-fit m-auto flex  gap-2 ">
+        <div class="rounded-[50%] w-12 h-12  bg-blue-600 "> </div>
+        <div class="rounded-[50%]  w-12 h-12  bg-yellow-500"></div>
+        <div class="rounded-[50%] w-12 h-12 bg-green-500"></div>
+        <div class="rounded-[50%] w-12 h-12  bg-red-500"></div>
+      </div>
+      <hr class="border-[1px] mx-auto w-[96%]">
+      <form (ngSubmit)="submit()"  class="gap-5" [formGroup]="myform">
+        <div class="flex flex-col w-[80%] phone:ml-4 tablet:ml-12 mt-8">
+          <label for="username">Username</label>
+          <input required formControlName="name" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 w-full h-10 rounded-md bg-gray-100 outline-none" type="text">
+        </div>
+        <div class="flex flex-col w-[80%] phone:ml-4 tablet:ml-12 mt-8">
+          <label for="email">Email</label>
+          <input required formControlName="email" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 w-full h-10 rounded-md bg-gray-100 outline-none" type="text">
+        </div>
+        <div class="flex flex-col w-[80%] phone:ml-4 tablet:ml-12 mt-8 ">
+          <label for="password">Password</label>
+          <input required formControlName="password" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 bg-gray-100 rounded-md outline-none h-10" type="password">
+        </div>
+        <div class="flex flex-col w-[80%] phone:ml-4 tablet:ml-12 mt-8 ">
+          <label for="password">Confirm Password</label>
+          <input required formControlName="password" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 bg-gray-100 rounded-md outline-none h-10" type="password">
+        </div>
+
+        <div class=" mt-8  phone:ml-4 tablet:ml-12 ">
+          <div class="space-x-2">
+          <input class="bg-[#135beb]" type="checkbox">
+          <label for="">I accept terms and conditions</label>
+          </div>
+        </div>
+
+        <button  class="bg-[#135beb] mt-2 p-3 rounded-md w-30 text-white float-right mb-3 mr-10">create account</button>
+      </form>
+
+    <hr class="border-[1px] mb-5 mt-20 mx-auto w-[96%]" >
+
+  <div class="text-center mb-5 mt-6">Have an account ?<a routerLink="/login" class="text-[#135beb]" href=""> SignIn</a></div>
+
+</div><app-template2 class="text-white" ></app-template2>

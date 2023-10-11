@@ -41,27 +41,28 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
 
   <mat-table matSort class="h-[373px] ml-2 mr-2 min-w-[300px] overflow-x-scroll "  #table [dataSource]="dataSource">
 
-    <!-- id Column -->
-    <ng-container class="mr-0" matColumnDef="id">
-      <mat-header-cell mat-sort-header class="text-blue-700 font-bold" *matHeaderCellDef> <mat-icon class="mat-18">sort</mat-icon>No. </mat-header-cell>
+    <!-- quantity_supplied Column -->
+    <ng-container class="mr-0" matColumnDef="quantity_supplied">
+      <mat-header-cell mat-sort-header class="text-blue-700 font-bold" *matHeaderCellDef>
+      <mat-icon class="mat-18">sort</mat-icon>quantity </mat-header-cell>
       <mat-cell class="text-blue-700 font-bold"  *matCellDef="let element"> {{element.id}} </mat-cell>
     </ng-container>
 
-    <!-- Name Column -->
-    <ng-container matColumnDef="name">
-      <mat-header-cell mat-sort-header class="text-blue-700 font-bold" *matHeaderCellDef > Name </mat-header-cell>
+    <!--expire date Column -->
+    <ng-container matColumnDef="expire_date">
+      <mat-header-cell mat-sort-header class="text-blue-700 font-bold" *matHeaderCellDef > Expire_date </mat-header-cell>
       <mat-cell   *matCellDef="let element" > {{element.name}} </mat-cell>
     </ng-container>
 
-    <!-- address Column -->
-    <ng-container matColumnDef="address">
-      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef mat-sort-header> Address </mat-header-cell>
+    <!-- bulk price Column -->
+    <ng-container matColumnDef="bulk_price">
+      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef mat-sort-header>rice </mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
     </ng-container>
 
-    <!-- phone_number Column -->
-    <ng-container matColumnDef="phone_number">
-      <mat-header-cell class="text-blue-700 font-bold"   *matHeaderCellDef>Phone_Number</mat-header-cell>
+    <!-- date supplied Column -->
+    <ng-container matColumnDef="date_supplied">
+      <mat-header-cell class="text-blue-700 font-bold"   *matHeaderCellDef>Date_S</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.phone_number}} </mat-cell>
     </ng-container>
 
@@ -73,7 +74,7 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
 
      <!-- picture column -->
      <ng-container matColumnDef="supplier_picture">
-      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef>PicSu</mat-header-cell>
+      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef>Picture</mat-header-cell>
       <mat-cell *matCellDef="let element"> {{element.supplier_picture}} </mat-cell>
     </ng-container>
 
@@ -81,8 +82,8 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
     <ng-container matColumnDef="action">
       <mat-header-cell class="text-blue-700 font-bold" *matHeaderCellDef>Action</mat-header-cell>
       <mat-cell class="space-x-2 p-3" *matCellDef="let element">
-        <button (click)="editSupplier(element)" size="small" mat-raised-button color="primary"><mat-icon class="mat-18">edit</mat-icon></button>
-        <button (click)="deleteSupplier(element.id)" mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+        <button  size="small" mat-raised-button color="primary"><mat-icon class="mat-18">edit</mat-icon></button>
+        <button mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
       </mat-cell >
     </ng-container>
 
@@ -98,3 +99,5 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
 
     <app-template2></app-template2>
 </div><!-- end body -->
+
+

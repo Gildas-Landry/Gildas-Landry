@@ -11,6 +11,7 @@ import { SuppliersComponent } from '../pages/suppliers/suppliers.component';
 import { CategoriesComponent } from '../pages/categories/categories.component';
 import { PosComponent } from '../pages/pos/pos.component';
 import { SalesComponent } from '../pages/sales/sales.component';
+import { PurchaseComponent } from '../pages/purchase/purchase.component';
 
 const routes=[
   {path:'dashboard/products',component:ProductsComponent},
@@ -18,6 +19,7 @@ const routes=[
   {path:'dashboard/categories',component:CategoriesComponent},
   {path:'dashboard/pos',component:PosComponent},
   {path:'dashboard/sales',component:SalesComponent},
+  {path:'dashboard/purchase', component:PurchaseComponent}
 ];
 
 @NgModule({

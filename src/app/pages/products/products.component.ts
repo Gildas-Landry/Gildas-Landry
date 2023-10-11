@@ -1,75 +1,126 @@
-import {  OnInit } from '@angular/core';
-import { Component, ViewChild } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+import { Component, OnInit } from '@angular/core';
+import {  ViewChild } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import {  MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import { ProdPopupComponent } from './prod-popup/prod-popup.component';
+import { ProdService } from './prod-service.service';
 
 @Component({
   selector: 'app-products',
   templateUrl: './products.component.html',
   styleUrls: ['./products.component.css']
 })
-export class ProductsComponent  {
+export class ProductsComponent implements OnInit {
+  displayedColumns = ['id','product_name','selling_price','product_image','retail_quantity_stocked','category_id','Action'];
+  dataSource!:MatTableDataSource<any>;
 
-  displayedColumns = ['Id', 'Name', 'Image', 'Stocked','Selling_Price','Action'];
-  dataSource = new MatTableDataSource<Element>(ELEMENT_DATA);
+  @ViewChild(MatSort)sort!: MatSort;
+  @ViewChild(MatPaginator)paginator!: MatPaginator;
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('paginator') paginator !: MatPaginator;
 
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort=this.sort;
+  constructor( private dialog:MatDialog ,private http:HttpClient, private prodservice:ProdService) {
+
+  }
+
+  ngOnInit(): void {
+    this.getProduct();
+  }
+
+  openModal(){
+    const dialogRef=this.dialog.open(ProdPopupComponent,{
+      width:'50%',
+      height:'400px',
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val)=>{
+        if(val){
+          this.getProduct();
+        }
+      },
+    })
+  }
+
+  exportProduct(){
+    window.open('http://localhost:8000/product/export-x');
+  }
+
+  // exportProduct(){
+  //   import("xlsx").then(xlsx =>{
+  //     const worksheet=xlsx.utils.json_to_sheet([this.http.get('http://localhost:8000/product/export-csv')]);
+  //     const workbook={Sheets: {'data':worksheet},SheetNames:['data']};
+  //     const excelBuffer: any=xlsx.write(workbook,{bookType:'xlsx',type:'array'});
+  //     this.saveAsExcelFile(excelBuffer,"products");
+  //   });
+  // }
+
+    // return this.http.get('http://localhost:8000/product/export-csv')
+    // this.prodservice.exportProducts().subscribe({next:(response) =>{console.log('succesfull',response)},error:console.log});
+
+  getProduct(){
+    this.prodservice.getproducts().subscribe(
+      {
+        next: (response) =>
+        {
+          this.dataSource=new MatTableDataSource<Element>(response);
+          console.log('list of products',response);
+          this.dataSource.paginator = this.paginator;
+          this.dataSource.sort=this.sort;
+        },
+          error:console.log
+        });
+  }
+
+  editProduct(data:any){
+    const  dialogRef= this.dialog.open(ProdPopupComponent,{data,});
+     dialogRef.afterClosed().subscribe({
+       next: (val)=>{
+         if(val){
+           this.getProduct();
+           console.log('there is data');
+         }
+       },
+     })
+  }
+
+  deleteProduct(id:number){
+
+    this.prodservice.deleteproductById(id).subscribe(
+    {
+        next: (response)=>
+        {
+          console.log(this.getProduct());
+          alert('Are you sure to delete this Product?');
+          this.getProduct();
+        },
+
+    })
+  }
+
+  importProduct(file:any){
+    this.prodservice.importProducts(file).subscribe(next =>{console.log('succesfull')},
+    error =>{console.log('erroe')}
+    )
   }
 
   applyFilter(filterValue:string) {
+      filterValue = filterValue.trim(); // Remove whitespace
+      filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+      this.dataSource.filter = filterValue;
+  }
+
+  clearSearchResult(filterValue:string){
     filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
-clearSearchResult(filterValue:string){
-  filterValue = filterValue.trim(); // Remove whitespace
-  filterValue =filterValue.replace(filterValue," "); // MatTableDataSource defaults to lowercase matches
-  this.dataSource.filter = "";
-
-}
-  closeSidenav(){
-    document.querySelector('.side-nav')?.classList.add('max-desktop:hidden');
-    document.querySelector('.body')?.classList.remove('max-desktop:blur-sm');
-    document.querySelector('.body')?.classList.remove('max-desktop:h-screen');
+    filterValue =filterValue.replace(filterValue," "); // MatTableDataSource defaults to lowercase matches
+    this.dataSource.filter = "";
   }
 
-
+    closeSidenav(){
+      document.querySelector('.side-nav')?.classList.add('max-desktop:hidden');
+      document.querySelector('.body')?.classList.remove('max-desktop:blur-sm');
+      document.querySelector('.body')?.classList.remove('max-desktop:h-screen');
+    }
 }
-export interface Element {
-  Id: number;
-  Name: string;
-  Image: string;
-  Stocked: number;
-  Selling_Price:number;
-
-}
-const ELEMENT_DATA: Element[] = [
-  {Id: 1, Name: 'Hydrogen', Image: 'reythh', Stocked:9, Selling_Price:12223},
-  {Id: 2, Name: 'Helium', Image:'yooeei@gmail.cm', Stocked:7, Selling_Price: 1000},
-  {Id: 3, Name: 'Lithium', Image:'yooeei@gmail.cm',  Stocked:8, Selling_Price: 1000 },
-  {Id: 4, Name: 'Beryllium', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 5, Name: 'Boron', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 6, Name: 'Carbon', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 7, Name: 'Nitrogen', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 8, Name: 'Oxygen', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 9, Name: 'Fluorine', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 10,Name: 'Neon', Image:'yooeei@gmail.cm',  Stocked:8, Selling_Price: 1000},
-  {Id: 11, Name: 'Sodium', Image:'yooeei@gmail.cm',  Stocked:8, Selling_Price: 1000},
-  {Id: 12, Name: 'Magnesium', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 13, Name: 'Aluminum', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 14, Name: 'Silicon', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 15, Name: 'Phosphorus', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 16, Name: 'Sulfur', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 17, Name: 'Chlorine', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 18, Name: 'Argon', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 19, Name: 'Potassium', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000},
-  {Id: 20, Name: 'Calcium', Image:'yooeei@gmail.cm', Stocked:8, Selling_Price: 1000}
-
-];
-

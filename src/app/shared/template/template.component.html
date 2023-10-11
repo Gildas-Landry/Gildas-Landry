@@ -17,15 +17,15 @@
 </div>
 
 <!-- side nav -->
-<div class="con pl-2 max-desktop:text-white desktop:pt-16 side-nav absolute rounded-tr-3xl max-desktop:z-20 border-x-[1px] top-0 max-desktop:overflow-scroll
-w-[240px] max-desktop:min-h-screen min-h-[800px] desktop:text-white desktop:mr-2 desktop:border-r-2 desktop:border-white
+<div class="side-nav con pl-2 max-desktop:text-white desktop:pt-16  absolute rounded-tr-3xl max-desktop:z-20 border-x-[1px] top-0 max-desktop:overflow-scroll
+w-[240px] max-desktop:min-h-screen min-h-screen desktop:text-white desktop:mr-2 desktop:border-r-2 desktop:border-white
 bg-[#1357ebea] space-y-4 shadow-md max-desktop:hidden  laptop:w-[300px] max-desktop:w-[300px] phone:w-[250px] desktop:w-[250px]">
-  <div (click)="closeSidenav()" class="absolute right-1 top-1 desktop:hidden ">
+  <div (click)="closeSidenav()" class="absolute right-1 top-1 desktop:hidden">
     <mat-icon class="mat-18">close</mat-icon>
   </div>
   <div class="desktop:hidden  max-desktop:justify-items-center ml-16 ">
     <img  width="100px" height="100px" class="rounded-[100%]" src="./../../../assets/images/navi.png" alt="">
-      <span class="ml-4" >Username</span>
+    <span class="ml-4" >Username</span>
   </div>
   <div class="ml-2 mt-[10px] desktop:mt-[200px] flex flex-col ">CORE
 
@@ -38,11 +38,12 @@ bg-[#1357ebea] space-y-4 shadow-md max-desktop:hidden  laptop:w-[300px] max-desk
 
     <div  routerLink="/dashboard/pos" class="ml-2 group-checked:text-[#135beb] hover:text-[#135beb] space-x-1
       hover:bg-white hover:font-semibold hover:transition-all hover:bg-opacity-100 hover:-ml-3 p-2 hover:p-2 cursor-pointer
-      desktop:hover:bg-gray-200 ">
-    <mat-icon class="mat-38 ">point_of_sale</mat-icon>
-    <span class="absolute mt-[4px]" >Pos</span>
+      desktop:hover:bg-gray-200 "
+    >
+      <mat-icon class="mat-38 ">point_of_sale</mat-icon>
+      <span class="absolute mt-[4px]" >Pos</span>
 
-  </div>
+    </div>
   </div>
   <!-- <div class="ml-2 flex flex-col space-y-4">ORDERS
     <span class="mt-4 ml-5">Complete</span>
@@ -60,7 +61,7 @@ bg-[#1357ebea] space-y-4 shadow-md max-desktop:hidden  laptop:w-[300px] max-desk
       <mat-icon class="mat-18">library_add_check</mat-icon>
       <span class="absolute mt-[4px]">Approval</span>
     </div>
-    <div routerLink="/dashboard/suppliers" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
+    <div routerLink="/dashboard/purchase" class="ml-2  hover:text-[#135beb] hover:font-semibold desktop:hover:bg-gray-200
     hover:bg-white hover:transition-all hover:bg-opacity-100 hover:py-2 hover:-ml-3  p-2 cursor-pointe space-x-1" >
       <mat-icon class="mat-18">report</mat-icon>
       <span class="absolute mt-[4px]">Daily Purchase Report</span>

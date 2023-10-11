@@ -9,15 +9,15 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
         <span class="text-[28px] max-tablet:text-[24px]">Category List</span>
       </div>
 
-      <div class="bg-[rgba(35,33,149,0.87)] max-tablet:w-32 max-tablet:ml-2 text-white absolute max-tablet:left-0 max-tablet:mt-5
-      right-10 hover:cursor-pointer pl-[1px] rounded-md py-2 w-40 space-x-7 text-center">
+      <div (click)="openModal()" class="bg-[rgba(35,33,149,0.87)] max-tablet:w-32 max-tablet:ml-2 text-white absolute max-tablet:left-0 max-tablet:mt-5
+        right-10 hover:cursor-pointer pl-[1px] rounded-md py-2 w-40 space-x-7 text-center">
         <mat-icon class="absolute -mt-[3px]">add</mat-icon>
         <span>Add Category</span>
       </div>
       <div (click)="clearSearchResult(filterValue.value)" class="max-tablet:hidden justify-center bg-red-700 bg-opacity-100 text-white absolute right-52 hover:cursor-pointer rounded-md py-2 w-32 space-x-7 text-center">
         <mat-icon class="absolute -mt-[3px]" color="white-200">delete</mat-icon>
         <span >Clear Search</span>
-    </div>
+      </div>
 
     </div>
     <div class="max-tablet:mt-12 mt-10 fixed-input h-10 p-3 rounded-md bg-[#1b1e3b63] w-[97%] mx-auto  text-white text-[16px] text-opacity-40">
@@ -25,18 +25,17 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
     </div>
   </div>
 
-
-  <div class="search-container max-tablet:-mt-5  min-w-[300px] bg-white tablet:-mt-6 desktop:-mt-12 h-[100px] mr-2 ml-2 rounded-t-md pt-4 space-x-2 flex">
-    <span class="max-tablet:ml-1 ml-4 text-[#1046c6ba] mt-[6px]">Search:</span>
-    <input class="h-6 w-40 border- rounded-sm outline outline-[#1046c6ba] px-2 outline-[1px] mt-1" #filterValue placeholder="Filter">
-    <div class="p-2 w-10 h-8 text-center rounded-sm bg-[#1046c6ba] " (click)="applyFilter(filterValue.value)">
-      <mat-icon class="mat-40 absolute -ml-[11px] -mt-[2px] text-white ">search</mat-icon>
-    </div>
-    <div (click)="clearSearchResult(filterValue.value)" class="tablet:hidden max-tablet:mt-9 max-tablet:left-1 justify-center bg-red-700 bg-opacity-100 text-white absolute right-8 hover:cursor-pointer rounded-md py-2 w-32 space-x-7 text-center">
+    <div class="search-container max-tablet:-mt-5  min-w-[300px] bg-white tablet:-mt-6 desktop:-mt-12 h-[100px] mr-2 ml-2 rounded-t-md pt-4 space-x-2 flex">
+      <span class="max-tablet:ml-1 ml-4 text-[#1046c6ba] mt-[6px]">Search:</span>
+      <input class="h-6 w-40 border- rounded-sm outline outline-[#1046c6ba] px-2 outline-[1px] mt-1" #filterValue placeholder="Filter">
+      <div class="p-2 w-10 h-8 text-center rounded-sm bg-[#1046c6ba] " (click)="applyFilter(filterValue.value)">
+        <mat-icon class="mat-40 absolute -ml-[11px] -mt-[2px] text-white ">search</mat-icon>
+      </div>
+      <div (click)="clearSearchResult(filterValue.value)" class="tablet:hidden max-tablet:mt-9 max-tablet:left-1 justify-center bg-red-700 bg-opacity-100 text-white absolute right-8 hover:cursor-pointer rounded-md py-2 w-32 space-x-7 text-center">
         <mat-icon class="absolute -mt-[3px]" color="white-200">delete</mat-icon>
         <span >Clear Search</span>
+      </div>
     </div>
-  </div>
   <hr heigth="2px" color="text-black" class="text-black">
     <!-- Here is my table -->
 
@@ -64,13 +63,13 @@ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full de
     <ng-container matColumnDef="action">
       <mat-header-cell class="text-blue-700 font-bold" *matHeaderCellDef>Action</mat-header-cell>
       <mat-cell class="space-x-2 p-3" *matCellDef="let element">
-        <button size="small" mat-raised-button color="primary"><mat-icon class="mat-18">edit</mat-icon></button>
-        <button mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+        <button (click)="editCategory(element)" size="small" mat-raised-button color="primary"><mat-icon class="mat-18">edit</mat-icon></button>
+        <button (click)="deleteCategory(element.id)" mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
       </mat-cell >
     </ng-container>
 
     <mat-header-row class="mx-1 " *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row class="even:bg-gray-200 bg-opacity-5 mx-1" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    <mat-row class="even:bg-gray-200 bg-opacity-5 mx-1" *matRowDef="let row; columns: displayedColumns;">hi</mat-row>
 
   </mat-table>
   <mat-paginator class="min-w-[300px] rounded-b-md ml-2 mr-2" #paginator

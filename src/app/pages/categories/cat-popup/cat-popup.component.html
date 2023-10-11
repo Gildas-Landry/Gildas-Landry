@@ -1,0 +1,22 @@
+<form [formGroup]="catForm"  (ngSubmit)="saveCategory()">
+  <h1 matDialogTitle>{{data? 'Edit Category' :'Add Category'}}</h1>
+
+  <mat-dialog-content class="flex flex-col gap-2">
+
+        <mat-form-field class="w-[80%]">
+          <mat-label >Category</mat-label>
+          <input class="w-[80%]"  formControlName="category_name"  matInput>
+        </mat-form-field>
+        <mat-form-field class="w-[80%]">
+          <mat-label>Description</mat-label>
+          <input  formControlName="description"  matInput>
+        </mat-form-field>
+
+  </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button  type="button" [mat-dialog-close]="false" color="warn" mat-raised-button (click)="closePopup()">Close</button>
+        <button type="submit"  mat-raised-button color="primary">{{data ? 'Update':'Save'}}</button>
+    </mat-dialog-actions>
+
+  </form>
