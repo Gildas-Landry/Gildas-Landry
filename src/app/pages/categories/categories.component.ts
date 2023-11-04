@@ -8,6 +8,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import { Supplier } from 'src/app/Supplier';
 import { CatPopupComponent } from './cat-popup/cat-popup.component';
 import { CategoriesService } from './categories.service.ts.service';
+import { DeleteComponent } from 'src/app/shared/delete/delete.component';
 
 @Component({
   selector: 'app-categories',
@@ -33,8 +34,8 @@ export class CategoriesComponent implements OnInit {
 
   openModal(){
     const dialogRef=this.dialog.open(CatPopupComponent,{
-      width:'50%',
-      height:'400px',
+      width:'400px',
+      height:'300px',
     });
     dialogRef.afterClosed().subscribe({
       next: (val)=>{
@@ -61,7 +62,11 @@ export class CategoriesComponent implements OnInit {
   }
 
   editCategory(data:any){
-    const  dialogRef= this.dialog.open(CatPopupComponent,{data,});
+    const  dialogRef= this.dialog.open(CatPopupComponent,{
+      data,
+      width:'400px',
+      height:'300px',
+    });
      dialogRef.afterClosed().subscribe({
        next: (val)=>{
          if(val){
@@ -72,20 +77,6 @@ export class CategoriesComponent implements OnInit {
      })
    }
 
-
-  deleteCategory(id:number){
-
-    this.catservice.deletecategoryById(id).subscribe(
-    {
-        next: (response)=>
-        {
-          console.log(this.getCategory());
-          alert('Are you sure to delete this category?');
-          this.getCategory();
-        },
-      //error:console.log
-    })
-  }
 
 applyFilter(filterValue:string) {
     filterValue = filterValue.trim(); // Remove whitespace
@@ -103,6 +94,30 @@ clearSearchResult(filterValue:string){
     document.querySelector('.side-nav')?.classList.add('max-desktop:hidden');
     document.querySelector('.body')?.classList.remove('max-desktop:blur-sm');
     document.querySelector('.body')?.classList.remove('max-desktop:h-screen');
+  }
+  openModal2(data:any){
+
+    const dialogRef=this.dialog.open(DeleteComponent,{
+        data,
+        width:'310px',
+        height:'150px',
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val)=>{
+        console.log(data.id)
+        if(val){
+          this.getCategory();
+        }
+      },
+    })
+  }
+  data!:any[];
+  tablename="category";
+
+  deleteCategory(idrow:any){
+    this.data=[idrow,this.tablename]
+    this.openModal2(this.data);
+    console.log(idrow.id)
   }
 
 }

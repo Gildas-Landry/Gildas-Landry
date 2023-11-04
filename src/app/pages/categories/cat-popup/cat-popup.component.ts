@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 import { CategoriesComponent } from '../categories.component';
 import { CategoriesService } from '../categories.service.ts.service';
+import { SnackbarService } from 'src/app/snackbar.service';
 
 @Component({
   selector: 'app-cat-popup',
@@ -22,7 +23,7 @@ export class CatPopupComponent implements OnInit {
 
   constructor(@Inject (MAT_DIALOG_DATA) public data:any,private ref:MatDialogRef<CatPopupComponent>,
   private catservice:CategoriesService, private http:HttpClient,private router:Router,private builder:FormBuilder,
-  private dialogRef:MatDialogRef<CategoriesComponent>)
+  private dialogRef:MatDialogRef<CategoriesComponent>, private sb:SnackbarService)
   {
 
     this.catForm=this.builder.group(
@@ -47,17 +48,17 @@ export class CatPopupComponent implements OnInit {
         console.log(this.catForm.value)
         this.catservice.addcategory(this.catForm.value).subscribe(() =>
         {
-          alert('category added succesfully');
+          this.sb.openSnackBar("Category", "Category added succesfully !!");
           this.dialogRef.close(true);
-          console.log('successfully added data');
+
         })
       }
       else{
         this.catservice.updatecategory(this.data.id,this.catForm.value).subscribe(() =>
         {
-          alert('category updated succesfully');
+          this.sb.openSnackBar("Category", "Category updated succesfully !!");
           this.dialogRef.close(true);
-          console.log('successfully updated data');
+
         })
 
       }

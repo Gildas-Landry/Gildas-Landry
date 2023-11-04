@@ -1,3 +1,4 @@
+import { DeleteService } from './../../shared/delete.service';
 //import { Observable } from 'rxjs';
 import { Component, ViewChild, OnInit, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
@@ -6,6 +7,7 @@ import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { PopupComponent } from 'src/app/components/popup/popup.component';
 import { MasterService } from 'src/app/master.service';
+import { DeleteComponent } from 'src/app/shared/delete/delete.component';
 import { Supplier } from 'src/app/Supplier';
 @Component({
   selector: 'app-suppliers',
@@ -24,14 +26,14 @@ export class SuppliersComponent implements OnInit {
     this.fetchSuppliers();
   }
 
-  constructor(private dialog:MatDialog, private master:MasterService){
+  constructor( private dialog:MatDialog, private master:MasterService){
 
   }
 
   openModal(){
     const dialogRef=this.dialog.open(PopupComponent,{
-      width:'50%',
-      height:'400px',
+      width:'400px',
+      height:'450px',
     });
     dialogRef.afterClosed().subscribe({
       next: (val)=>{
@@ -55,6 +57,8 @@ export class SuppliersComponent implements OnInit {
 
   editSupplier(data:any){
    const  dialogRef= this.dialog.open(PopupComponent,{
+    width:'400px',
+      height:'450px',
       data:data
     });
     dialogRef.afterClosed().subscribe({
@@ -65,19 +69,29 @@ export class SuppliersComponent implements OnInit {
       },
     })
   }
-
-  deleteSupplier(id:number){
-
-    this.master.deleteSupplierById(id).subscribe(
-    {
-        next: (response)=>
-        {
-          console.log(this.fetchSuppliers());
-          alert('Are you sure to delete this supplier?');
+  openModal2(data:any){
+    const dialogRef=this.dialog.open(DeleteComponent,{
+        data,
+        width:'310px',
+        height:'150px',
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val)=>{
+        console.log(data.id)
+        if(val){
           this.fetchSuppliers();
-        },
-      //error:console.log
+        }
+      },
     })
+  }
+
+  tablename="supplier"
+  data!:any[];
+
+  deleteSupplier(row:any){
+     this.data=[row,this.tablename];
+     this.openModal2(this.data);
+
   }
 
 

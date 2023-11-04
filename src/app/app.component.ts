@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import {TranslateService} from "@ngx-translate/core";
 
 
@@ -7,11 +7,15 @@ import {TranslateService} from "@ngx-translate/core";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
+  ngOnInit(): void {
+    this.translate.setDefaultLang('fr');
+    this.translate.use('fr');
+  }
 
   constructor(private translate: TranslateService) {
-    translate.setDefaultLang('fr');
-    translate.use('fr');
+
+
   }
   showSidenav(){
     document.querySelector('.side-nav')?.classList.remove('max-desktop:hidden');

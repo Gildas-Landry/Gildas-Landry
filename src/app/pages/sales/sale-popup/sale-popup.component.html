@@ -1,0 +1,29 @@
+
+<form [formGroup]="saleForm"  (ngSubmit)="saveSale()">
+  <h1 matDialogTitle> {{data?'Edit Sale List':'Add Sale'}}</h1>
+
+      <mat-dialog-content class="flex flex-col gap-2">
+        <!-- <mat-form-field class="w-[80%] ">
+          <mat-label>Id</mat-label>
+          <input class=" w-[80%]" formControlName="id" matInput>
+        </mat-form-field> -->
+        <mat-form-field class="w-[80%]">
+          <mat-label >Sellers_name</mat-label>
+          <input class="w-[80%]"  formControlName="sellers_name"  matInput>
+        </mat-form-field>
+        <mat-form-field class="w-[80%]">
+          <mat-label>customer_name</mat-label>
+          <input  formControlName="customer_name"  matInput>
+        </mat-form-field>
+        <mat-form-field class="w-[80%]">
+          <mat-label>customer_address</mat-label>
+          <input  formControlName="customer_address" matInput>
+        </mat-form-field >
+      </mat-dialog-content>
+
+    <mat-dialog-actions>
+        <button [mat-dialog-close]="false" color="warn" mat-raised-button type="button" (click)="closePopup()">Close</button>
+        <button type="submit" mat-raised-button color="primary">{{data ? 'Update' : 'Save'}}</button>
+    </mat-dialog-actions>
+
+  </form>

@@ -1,6 +1,7 @@
-<div class="bg-[#135beb] min w-full h-[800px] brightness-100 absolute">
-  <div class="con bg-contain h-[600px] max-w-[500px] m-auto mb-20 mt-10 max-tablet:mx-2
-  bg-white rounded-md shadow-md">
+
+<div class="bg-[#135beb] min w-full h-[800px] max-tablet:h-[700px] brightness-100 absolute">
+  <div class="con bg-contain min-h-[600px] max-tablet:mt-auto max-w-[500px] m-auto max-tablet:mb-4 mb-20 mt-10 max-tablet:max-w-[300px] max-tablet:mx-auto
+  bg-white rounded-md shadow-md ">
     <div class="text-center w-auto mt-6 text-2xl font-bold">Sign In
 
     </div>
@@ -11,14 +12,30 @@
         <div class="rounded-[50%] w-14 h-14  bg-red-500"></div>
       </div>
       <hr class="border-[1px] mx-auto w-[96%]">
-      <form (ngSubmit)="submit()"  class="gap-5" [formGroup]="myform">
+
+      <form (ngSubmit)="submit()"  class="gap-4" [formGroup]="myform">
         <div class="flex flex-col w-[80%] phone:ml-6 tablet:ml-12 mt-8">
           <label for="email">Email/Username</label>
-          <input required formControlName="email" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 w-full h-10 rounded-md bg-gray-100 outline-none" type="text">
+          <input formControlName="email"
+            [ngClass]="{ 'is-invalid': submitted && f['email'].errors }"
+            class="focus:border-[hsl(220,85%,50%)] focus:border-[2px] focus:shadow-xl p-2 w-full h-10 rounded-md bg-gray-100 outline-none" type="text"
+          >
+          <div *ngIf="submitted && f['email'].errors">
+            <div class="text-red-600" *ngIf="f['email'].errors['required']">email field is required</div>
+          </div>
+          <div *ngIf="submitted && f['email'].errors">
+            <div class="text-red-600" *ngIf="f['email'].errors['email']">enter valid email</div>
+          </div>
         </div>
-        <div class="flex flex-col w-[80%] phone:ml-6 tablet:ml-12 mt-8 ">
+        <div class="flex flex-col w-[80%] phone:ml-6 tablet:ml-12 mt-6 ">
           <label for="password">Password</label>
-          <input required formControlName="password" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 bg-gray-100 rounded-md outline-none h-10" type="password">
+          <input  formControlName="password" class="focus:border-[#135beb] focus:border-[2px] focus:shadow-xl p-2 bg-gray-100 rounded-md outline-none h-10" type="password">
+          <mat-error *ngIf="submitted && f['password'].errors">
+            <div class="text-red-600" *ngIf="f['password'].errors['required']">password field is required</div>
+          </mat-error>
+          <div #error class="password">
+
+          </div>
         </div>
 
         <div class="flex flex-col w-fit ml-12 mt-6">
@@ -27,18 +44,24 @@
           </a>
         </div>
 
-        <div class=" mt-8  ml-12 ">
+        <div class=" mt-6  ml-12 ">
           <div class="space-x-2">
           <input class="bg-[#135beb]" type="checkbox">
           <label for="">Remember me</label>
           </div>
         </div>
-
-        <button  class="bg-[#135beb] p-3 rounded-md w-20 text-white float-right mb-3 mr-10 mt-2">Login</button>
+        <button (click)="onReset()" class="bg-[#135beb] p-3 rounded-md w-20 text-white float-right mb-3 mr-10 mt-2">Login</button>
       </form>
-
-    <hr class="border-[1px] mb-5 mt-20 mx-auto w-[96%]" >
-
+    <hr class="border-[1px] mb-5 mt-20 mx-auto w-[96%]">
   <div class="text-center mb-5 mt-6">New user?<a routerLink="/register" class="text-[#135beb]" href="">create account.</a></div>
 
-</div><app-template2 class="text-white" ></app-template2>
+</div>
+<!-- Here is my body footer -->
+<div class=" footer relative mt-5 flex max-laptop:flex-col gap-x-[55%] w-full
+font-bold mb-0 bottom-0 h-20 px-1 py-8 shadow text-white max-desktop:w-[100%] max-desktop:ml-[0%]"
+>
+  <span class="ml-5 ">Copyright © Your Website 2023</span>
+  <span routerLink="" class=" tablet:absolute tablet:right-5 ml-5 hover:underline hover:cursor-pointer"> Privacy Policy · Terms & Conditions</span>
+</div>
+<!-- end of body footer-->
+

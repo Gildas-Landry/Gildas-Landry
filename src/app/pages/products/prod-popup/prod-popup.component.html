@@ -1,43 +1,39 @@
 
-<form [formGroup]="productForm"  (ngSubmit)="saveSupplier()">
+<form [formGroup]="productForm"  (ngSubmit)="savePrroduct()">
   <h1 matDialogTitle> {{data?'Edit Product':'Add Product'}}</h1>
 
-  <mat-dialog-content class="flex flex-col gap-2">
-        <!-- <mat-form-field class="w-[80%] ">
-          <mat-label>Id</mat-label>
-          <input class=" w-[80%]" formControlName="id" matInput>
-        </mat-form-field> -->
-        <mat-form-field class="w-[80%]">
+    <mat-dialog-content class="flex flex-col gap-2 w-[450px]">
+
+        <mat-form-field class="w-[80%]" appearance="outline">
           <mat-label >Product_name</mat-label>
-          <input class="w-[80%]"  formControlName="product_name"  matInput>
+          <input class="w-[80%]"  formControlName="product_name"  matInput required type="text">
         </mat-form-field>
-        <mat-form-field class="w-[80%]">
-          <mat-label>product_image</mat-label>
-          <input  formControlName="product_image"  matInput>
-        </mat-form-field>
-        <mat-form-field class="w-[80%]">
+        <div>
+          <mat-label>Select Image</mat-label>
+          <input type="file" accept="image/*" formControlName="product_image" required>
+        </div>
+        <mat-form-field class="w-[80%]" appearance="outline">
           <mat-label>quantity</mat-label>
-          <input  formControlName="retail_quantity_stocked" matInput>
+          <input formControlName="retail_quantity_stocked" matInput required type="number">
         </mat-form-field >
-        <mat-form-field class="w-[80%]">
+        <mat-form-field class="w-[80%]" appearance="outline">
           <mat-label>Price</mat-label>
-          <input formControlName="selling_price"  matInput>
+          <input formControlName="selling_price"  matInput required type="number">
         </mat-form-field>
-        <mat-form-field class="w-[80%]">
-          <mat-label>category</mat-label>
-          <input formControlName="category_id"  matInput>
+        <mat-form-field class="w-[80%]" appearance="outline">
+          <mat-select formControlName="category_id" placeholder="select category" name="category" required>
+              <mat-option *ngFor="let cat of category" [value]="cat.id">{{cat.category_name}}</mat-option>
+          </mat-select>
         </mat-form-field>
-        <mat-form-field class="w-[80%]">
+        <mat-form-field class="w-[80%]" appearance="outline">
           <mat-label>bulk_quantity_stocked</mat-label>
-          <input formControlName="bulk_quantity_stocked"  matInput>
+          <input formControlName="bulk_quantity_stocked"  matInput required type="number">
         </mat-form-field>
-        <mat-form-field class="w-[80%]">
+        <mat-form-field class="w-[80%]" appearance="outline">
           <mat-label>cost_price</mat-label>
-          <input formControlName="cost_price"  matInput>
+          <input formControlName="cost_price"  matInput required type="number">
         </mat-form-field>
-
-
-  </mat-dialog-content>
+    </mat-dialog-content>
 
     <mat-dialog-actions>
         <button [mat-dialog-close]="false" color="warn" mat-raised-button type="button" (click)="closePopup()">Close</button>

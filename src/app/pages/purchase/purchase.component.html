@@ -1,103 +1,89 @@
-<app-template></app-template>
-<div (click)="closeSidenav()" class="body con bg-gray-200 max-phone:max-h-[1500px] phone:max-h-[1500px]  ml-[250px]
-max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full desktop:min-h-screen"
->
-  <div class="blue-header bg-[rgba(19,87,235,0.92)] desktop:ml-1 mr-0 mt-14 right-0 w-full h-[250px] pt-4 phone:h-[200px] max-desktop:w-[100%] max-desktop:ml-[0%] desktop:h-[255px]">
-    <div class="flex text-white mt-10">
-      <div class="text-center max-tablet:-mt-5 max-tablet:ml-16 ml-2">
-        <mat-icon  class="w-2 mat-18">list</mat-icon>
-        <span class="text-[28px] max-tablet:text-[24px]">Supllier List</span>
+<app-template ></app-template>
+<div class="overflow-y-scroll h-screen w-full" >
+
+  <div (click)="closeSidenav()" class="body con bg-gray-200 max-phone:max-h-[1500px] phone:max-h-[1500px]  ml-[250px]
+  max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full desktop:min-h-screen"
+  >
+    <div class="blue-header bg-[rgba(19,87,235,0.92)] desktop:ml-1 mr-0 mt-14 right-0 w-full h-[250px] pt-4 phone:h-[200px] max-desktop:w-[100%] max-desktop:ml-[0%] desktop:h-[255px]">
+      <div class="flex text-white font-serif mt-10 max-tablet:mt-5">
+        <div class="text-center max-tablet:ml-6 ml-2">
+          <mat-icon  class="w-2 mat-18">list</mat-icon>
+          <span class="text-[28px] ">Products Sold List</span>
+        </div>
+
+        <div (click)="clearSearchResult(filterValue.value)" class="max-tablet:left-2 max-tablet:mt-7 justify-center bg-red-700 bg-opacity-100 text-white absolute right-10 hover:cursor-pointer rounded-md py-2 w-32 space-x-7 text-center">
+          <mat-icon class="absolute -mt-[3px]" color="white-200">delete</mat-icon>
+          <span >Clear Search</span>
+        </div>
+      </div>
+      <div class="max-tablet:mt-12 mt-10 fixed-input h-10 p-3 rounded-md bg-[#1b1e3b63] w-[97%] mx-auto  text-white text-[16px] text-opacity-40">
+        <span routerLink="/dashboard" class="underline">Dashboard/</span> <span> ProductsSold</span>
+      </div>
+    </div>
+    <div class="search-container max-tablet:-mt-5 px-5 min-w-[300px] bg-white tablet:-mt-6 desktop:-mt-12 h-[650px] mr-3 ml-3 rounded-md pt-4 space-x-2">
+      <div class="w-[90%] mb-3 flex">
+        <span class="max-tablet:ml-1 ml-4 text-[#1046c6ba] mt-[6px]">Search:</span>
+        <input class="h-6 w-40 border- rounded-sm outline outline-[#1046c6ba] px-2 outline-[1px] mt-1" #filterValue  placeholder="Filter">
+        <div class="p-2 w-10 h-8 text-center rounded-sm bg-[#1046c6ba] " (click)="applyFilter(filterValue.value)">
+          <mat-icon class="mat-40 absolute -ml-[11px] -mt-[2px] text-white ">search</mat-icon>
+        </div>
       </div>
 
-      <div (click)="openModal()" class="bg-[rgba(35,33,149,0.87)] max-tablet:w-32 max-tablet:ml-2 text-white absolute max-tablet:left-0 max-tablet:mt-5
-      right-10 hover:cursor-pointer pl-[1px] rounded-md py-2 w-40 space-x-7 text-center">
-        <mat-icon class="absolute -mt-[3px]">add</mat-icon>
-        <span>Add Supplier</span>
+        <!-- Here is my table -->
+      <div class="overflow-x-scroll con  min-h-[480px] min-w-[300px] shadow-2xl">
+        <mat-table matSort class="mt-0  min-h-[400px]  min-w-[800px]"  #table [dataSource]="dataSource">
+
+          <!-- id Column -->
+          <ng-container class="mr-0" matColumnDef="bulk_selling_price">
+            <mat-header-cell mat-sort-header class="text-white font-serif font-bold" *matHeaderCellDef> <mat-icon class="mat-18">sort</mat-icon>Sold_Price </mat-header-cell>
+            <mat-cell class=""  *matCellDef="let element"> {{element.bulk_selling_price}} </mat-cell>
+          </ng-container>
+
+          <!-- Name Column -->
+          <ng-container matColumnDef="retail_selling_price">
+            <mat-header-cell mat-sort-header class="text-white font-serif font-bold" *matHeaderCellDef > Retail_Price </mat-header-cell>
+            <mat-cell   *matCellDef="let element" > {{element.retail_selling_price}} </mat-cell>
+          </ng-container>
+
+          <!-- address Column -->
+          <ng-container matColumnDef="quantity_sold">
+            <mat-header-cell class="text-white font-serif font-bold"  *matHeaderCellDef mat-sort-header> Quantity</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.quantity_sold}} </mat-cell>
+          </ng-container>
+
+          <!-- phone_number Column -->
+          <ng-container matColumnDef="date_sold">
+            <mat-header-cell class="text-white font-serif font-bold"   *matHeaderCellDef>Date</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.date_sold | date:'dd/MM/yyyy'}} </mat-cell>
+          </ng-container>
+
+          <!-- Action column  -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell class="text-white font-serif font-bold" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell class="space-x-2 p-3" *matCellDef="let element">
+              <!-- <button (click)="editSale(element)" size="small" mat-raised-button color="primary"><mat-icon class="mat-18">edit</mat-icon></button> -->
+              <button (click)="deletePurchase(element)" mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row class="mx-1 bg-[rgba(19,87,235,0.92)]" *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row class="  mx-1" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+
+        <div class="table-footer flex space-x-6 relative min-w-[500px]">
+          <mat-paginator class="w-[400px] h-12 text-blue-800 shadow-2xl ml-3 mr-3" #paginator
+            [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 20]"
+            [showFirstLastButtons]="false">
+          </mat-paginator >
+          <div class="mat-18 text-[rgba(19,87,235,0.92)] flex absolute right-7 pt-4 ">
+            <mat-icon class=" line-clamp-1 mat-18  h-6">print</mat-icon>
+            <span class=" line-clamp-2 pt-1">Print</span>
+          </div>
+        </div>
       </div>
-      <div (click)="clearSearchResult(filterValue.value)" class="max-tablet:hidden justify-center bg-red-700 bg-opacity-100 text-white absolute right-52 hover:cursor-pointer rounded-md py-2 w-32 space-x-7 text-center">
-        <mat-icon class="absolute -mt-[3px]" color="white-200">delete</mat-icon>
-        <span >Clear Search</span>
     </div>
-
-    </div>
-    <div class="max-tablet:mt-12 mt-10 fixed-input h-10 p-3 rounded-md bg-[#1b1e3b63] w-[97%] mx-auto  text-white text-[16px] text-opacity-40">
-      <span routerLink="/dashboard" class="underline">Dashboard/</span> <span> Suppliers</span>
-    </div>
-  </div>
-  <div class="search-container max-tablet:-mt-5  min-w-[300px] bg-white tablet:-mt-6 desktop:-mt-12 h-[100px] mr-2 ml-2 rounded-t-md pt-4 space-x-2 flex">
-    <span class="max-tablet:ml-1 ml-4 text-[#1046c6ba] mt-[6px]">Search:</span>
-    <input class="h-6 w-40 border- rounded-sm outline outline-[#1046c6ba] px-2 outline-[1px] mt-1" #filterValue  placeholder="Filter">
-    <div class="p-2 w-10 h-8 text-center rounded-sm bg-[#1046c6ba] " (click)="applyFilter(filterValue.value)">
-      <mat-icon class="mat-40 absolute -ml-[11px] -mt-[2px] text-white ">search</mat-icon>
-    </div>
-    <div (click)="clearSearchResult(filterValue.value)" class="tablet:hidden max-tablet:mt-9 max-tablet:left-1 justify-center bg-red-700 bg-opacity-100 text-white absolute
-    right-8 hover:cursor-pointer rounded-md py-2 w-32 space-x-7 text-center">
-        <mat-icon class="absolute -mt-[3px]" color="white-200">delete</mat-icon>
-        <span >Clear Search</span>
-    </div>
-  </div>
-  <hr heigth="2px" color="text-black" class="text-black">
-    <!-- Here is my table -->
-
-  <mat-table matSort class="h-[373px] ml-2 mr-2 min-w-[300px] overflow-x-scroll "  #table [dataSource]="dataSource">
-
-    <!-- quantity_supplied Column -->
-    <ng-container class="mr-0" matColumnDef="quantity_supplied">
-      <mat-header-cell mat-sort-header class="text-blue-700 font-bold" *matHeaderCellDef>
-      <mat-icon class="mat-18">sort</mat-icon>quantity </mat-header-cell>
-      <mat-cell class="text-blue-700 font-bold"  *matCellDef="let element"> {{element.id}} </mat-cell>
-    </ng-container>
-
-    <!--expire date Column -->
-    <ng-container matColumnDef="expire_date">
-      <mat-header-cell mat-sort-header class="text-blue-700 font-bold" *matHeaderCellDef > Expire_date </mat-header-cell>
-      <mat-cell   *matCellDef="let element" > {{element.name}} </mat-cell>
-    </ng-container>
-
-    <!-- bulk price Column -->
-    <ng-container matColumnDef="bulk_price">
-      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef mat-sort-header>rice </mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.address}} </mat-cell>
-    </ng-container>
-
-    <!-- date supplied Column -->
-    <ng-container matColumnDef="date_supplied">
-      <mat-header-cell class="text-blue-700 font-bold"   *matHeaderCellDef>Date_S</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.phone_number}} </mat-cell>
-    </ng-container>
-
-    <!-- email column -->
-    <ng-container matColumnDef="email">
-      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef>Email</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.email}} </mat-cell>
-    </ng-container>
-
-     <!-- picture column -->
-     <ng-container matColumnDef="supplier_picture">
-      <mat-header-cell class="text-blue-700 font-bold"  *matHeaderCellDef>Picture</mat-header-cell>
-      <mat-cell *matCellDef="let element"> {{element.supplier_picture}} </mat-cell>
-    </ng-container>
-
-    <!-- Action column  -->
-    <ng-container matColumnDef="action">
-      <mat-header-cell class="text-blue-700 font-bold" *matHeaderCellDef>Action</mat-header-cell>
-      <mat-cell class="space-x-2 p-3" *matCellDef="let element">
-        <button  size="small" mat-raised-button color="primary"><mat-icon class="mat-18">edit</mat-icon></button>
-        <button mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
-      </mat-cell >
-    </ng-container>
-
-    <mat-header-row class="mx-1 text-xl" *matHeaderRowDef="displayedColumns"></mat-header-row>
-    <mat-row class="even:bg-gray-200 bg-opacity-5 mx-1 " *matRowDef="let row; columns: displayedColumns;"></mat-row>
-
-  </mat-table>
-  <mat-paginator class="min-w-[300px] rounded-b-md ml-2 mr-2" #paginator
-                  [pageSize]="5"
-                  [pageSizeOptions]="[5, 10, 20]"
-                  [showFirstLastButtons]="false">
-  </mat-paginator >
-
-    <app-template2></app-template2>
-</div><!-- end body -->
-
-
+      <app-template2></app-template2>
+  </div><!-- end body -->
+</div>

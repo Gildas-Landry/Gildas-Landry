@@ -21,6 +21,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MatSortModule } from '@angular/material/sort';
 import {MatInputModule} from '@angular/material/input';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { MatSelectModule } from '@angular/material/select';
 
 // import ngx-translate and the http loader
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
@@ -39,6 +40,11 @@ import { PurchaseComponent } from './pages/purchase/purchase.component';
 import { CatPopupComponent } from './pages/categories/cat-popup/cat-popup.component';
 import { ProdPopupComponent } from './pages/products/prod-popup/prod-popup.component';
 import { RegistrationComponent } from './components/registration/registration.component';
+import { SalePopupComponent } from './pages/sales/sale-popup/sale-popup.component';
+import { BarchartComponent } from './barchart/barchart.component';
+import { LinechartComponent } from './linechart/linechart.component';
+import { ProductsSuppliedComponent } from './products-supplied/products-supplied.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +60,12 @@ import { RegistrationComponent } from './components/registration/registration.co
     PurchaseComponent,
     CatPopupComponent,
     ProdPopupComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    SalePopupComponent,
+    BarchartComponent,
+    LinechartComponent,
+    ProductsSuppliedComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,
@@ -72,6 +83,7 @@ import { RegistrationComponent } from './components/registration/registration.co
     MatInputModule,
     MatAutocompleteModule,
     MatSnackBarModule,
+    MatSelectModule,
     HttpClientModule,
     TranslateModule.forRoot({
         loader: {

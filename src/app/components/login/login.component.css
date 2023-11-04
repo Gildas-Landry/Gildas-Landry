@@ -1,3 +1,6 @@
 .con{
   contain: content;
 }
+.footer{
+  background-color: transparent;
+}

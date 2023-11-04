@@ -8,6 +8,7 @@ import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
 import { ProdPopupComponent } from './prod-popup/prod-popup.component';
 import { ProdService } from './prod-service.service';
+import { DeleteComponent } from 'src/app/shared/delete/delete.component';
 
 @Component({
   selector: 'app-products',
@@ -21,7 +22,7 @@ export class ProductsComponent implements OnInit {
   @ViewChild(MatSort)sort!: MatSort;
   @ViewChild(MatPaginator)paginator!: MatPaginator;
 
-
+  ok:any;
   constructor( private dialog:MatDialog ,private http:HttpClient, private prodservice:ProdService) {
 
   }
@@ -32,11 +33,27 @@ export class ProductsComponent implements OnInit {
 
   openModal(){
     const dialogRef=this.dialog.open(ProdPopupComponent,{
-      width:'50%',
-      height:'400px',
+      width:'400px',
+      height:'550px',
     });
     dialogRef.afterClosed().subscribe({
       next: (val)=>{
+        if(val){
+          this.getProduct();
+        }
+      },
+    })
+  }
+  openModal2(data:any){
+
+    const dialogRef=this.dialog.open(DeleteComponent,{
+        data,
+        width:'310px',
+        height:'150px',
+    });
+    dialogRef.afterClosed().subscribe({
+      next: (val)=>{
+        console.log(data.id)
         if(val){
           this.getProduct();
         }
@@ -48,17 +65,6 @@ export class ProductsComponent implements OnInit {
     window.open('http://localhost:8000/product/export-x');
   }
 
-  // exportProduct(){
-  //   import("xlsx").then(xlsx =>{
-  //     const worksheet=xlsx.utils.json_to_sheet([this.http.get('http://localhost:8000/product/export-csv')]);
-  //     const workbook={Sheets: {'data':worksheet},SheetNames:['data']};
-  //     const excelBuffer: any=xlsx.write(workbook,{bookType:'xlsx',type:'array'});
-  //     this.saveAsExcelFile(excelBuffer,"products");
-  //   });
-  // }
-
-    // return this.http.get('http://localhost:8000/product/export-csv')
-    // this.prodservice.exportProducts().subscribe({next:(response) =>{console.log('succesfull',response)},error:console.log});
 
   getProduct(){
     this.prodservice.getproducts().subscribe(
@@ -75,7 +81,11 @@ export class ProductsComponent implements OnInit {
   }
 
   editProduct(data:any){
-    const  dialogRef= this.dialog.open(ProdPopupComponent,{data,});
+    const  dialogRef= this.dialog.open(ProdPopupComponent,{
+      data,
+      width:'450px',
+      height:'600px',
+    });
      dialogRef.afterClosed().subscribe({
        next: (val)=>{
          if(val){
@@ -85,24 +95,23 @@ export class ProductsComponent implements OnInit {
        },
      })
   }
-
-  deleteProduct(id:number){
-
-    this.prodservice.deleteproductById(id).subscribe(
-    {
-        next: (response)=>
-        {
-          console.log(this.getProduct());
-          alert('Are you sure to delete this Product?');
-          this.getProduct();
-        },
-
-    })
+ data:any[2]=[];
+ tablename="product"
+  deleteProduct(row:any){
+    this.data=[row,this.tablename];
+    this.openModal2(this.data);
+    console.log(row.id)
   }
 
   importProduct(file:any){
-    this.prodservice.importProducts(file).subscribe(next =>{console.log('succesfull')},
-    error =>{console.log('erroe')}
+    this.prodservice.importProducts(file).subscribe(
+      {
+        next:(responsee) =>
+        {
+          console.log('succesfull')
+        },
+        error:console.log
+      }
     )
   }
 

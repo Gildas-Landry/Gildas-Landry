@@ -1,77 +1,110 @@
 import { Observable } from 'rxjs';
-
-import { Component, ViewChild, OnInit } from '@angular/core';
+import {EventEmitter} from '@angular/core'
+import { Component, ViewChild, OnInit,Output } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import {  MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
-import { PopupComponent } from 'src/app/components/popup/popup.component';
-import { MasterService } from 'src/app/master.service';
-import { Supplier } from 'src/app/Supplier';
+import { ProdService } from '../products/prod-service.service';
+import { DeleteComponent } from 'src/app/shared/delete/delete.component';
+import { DashboardComponent } from '../dashboard/dashboard.component';
 @Component({
   selector: 'app-purchase',
   templateUrl: './purchase.component.html',
   styleUrls: ['./purchase.component.css']
 })
 export class PurchaseComponent implements OnInit {
-//listpurchase:Purchase[];
-  ngOnInit(){
-    //this.fetchSuppliers();
-  }
-  constructor(private dialog:MatDialog, private master:MasterService){
-   // this.listpurchase=[];
-  }
-  openModal(){
-      //this.listpurchase=[];
-      this.dialog.open(PopupComponent,{
-      width:'50%',
-      height:'400px',
-      data:{
-        title:'Supplier Add'
+
+  displayedColumns = ['bulk_selling_price', 'retail_selling_price','quantity_sold','date_sold','action'];
+  dataSource = new MatTableDataSource<any>;
+
+ngOnInit(): void {
+  this.getPurchaseList();
+}
+
+constructor(private dialog:MatDialog, private prodservice:ProdService){
+
+}
+
+@ViewChild(MatSort) sort!: MatSort;
+@ViewChild('paginator') paginator !: MatPaginator;
+
+purchase!:Purchase[];
+
+ quantitysold:number=0;
+getPurchaseList(){
+  this.prodservice.getProductSold().subscribe(
+    {
+      next: (response) =>
+      {
+        this.dataSource=new MatTableDataSource<any>(response);
+        console.log('list of products sold',response);
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort=this.sort;
+        this.purchase=response;
+
+        for(let i=0;i<=response.length-1;i++){
+
+          this.quantitysold=this.quantitysold+response[i].quantity_sold;
+        }
       },
-    })
-  };
+        error:console.log
+      });
+}
+openModal2(data:any){
+  const dialogRef=this.dialog.open(DeleteComponent,{
+    data,
+    width:'310px',
+    height:'180px',
+});
+dialogRef.afterClosed().subscribe({
+  next: (val)=>{
 
-  displayedColumns:string[] = ['quantity_supplied','expire_date','bulk_price','date_supplied','action'];
-dataSource:any=[];
+    if(val){
+      this.getPurchaseList();
+    }
+  },
+})
+}
 
-//   fetchPurchase(){
-//    // this.http.get('http:localhost:8000/purchase').subscribe(next=> {
-//    //this.listpurchase=next;
-//    //this.dataSource=this.listpurchase;
-//     this.dataSource= new MatTableDataSource(this.listpurchase);
-//     console.log('list of suppliers',this.listpurchase);
-//   },
-//   error => console.log('bigg error')
-//   )
-// }
+tablename="purchase";
+data!:any[];
+deletePurchase(row:any){
+  this.data=[row,this.tablename]
+    this.openModal2(this.data)
+}
 
-  //dataSource = new MatTableDataSource<Supplier>;
+applyFilter(filterValue:string) {
+  filterValue = filterValue.trim(); // Remove whitespace
+  filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+  this.dataSource.filter = filterValue;
+}
 
-  @ViewChild(MatSort) sort!: MatSort;
-  @ViewChild('paginator') paginator!: MatPaginator;
-
-  ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort=this.sort;
-  }
-
-  applyFilter(filterValue:string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
-    this.dataSource.filter = filterValue;
-  }
 clearSearchResult(filterValue:string){
   filterValue = filterValue.trim(); // Remove whitespace
   filterValue =filterValue.replace(filterValue," "); // MatTableDataSource defaults to lowercase matches
   this.dataSource.filter = "";
 
 }
-  closeSidenav(){
-    document.querySelector('.side-nav')?.classList.add('max-desktop:hidden');
-    document.querySelector('.body')?.classList.remove('max-desktop:blur-sm');
-    document.querySelector('.body')?.classList.remove('max-desktop:h-screen');
-  }
+
+closeSidenav(){
+  document.querySelector('.side-nav')?.classList.add('max-desktop:hidden');
+  document.querySelector('.body')?.classList.remove('max-desktop:blur-sm');
+  document.querySelector('.body')?.classList.remove('max-desktop:h-screen');
+}
 
 
 }
+export interface Purchase{
+  id:number;
+  sale_id:number;
+  product_id:number;
+  quantity_sold:number;
+  retail_selling_price:number;
+  bulk_selling_price:number;
+  date_sold:string;
+}
+
+
+
+

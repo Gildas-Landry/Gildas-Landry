@@ -8,6 +8,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Router, RouterModule } from '@angular/router';
 import { SuppliersComponent } from 'src/app/pages/suppliers/suppliers.component';
+import { SnackbarService } from 'src/app/snackbar.service';
 
 
 
@@ -20,7 +21,7 @@ export class PopupComponent implements OnInit {
   supplierForm:FormGroup;
   constructor(@Inject (MAT_DIALOG_DATA) public data:any ,private ref:MatDialogRef<PopupComponent>
   ,private master:MasterService, private http:HttpClient,private router:Router,private builder:FormBuilder,
-  private dialogRef:MatDialogRef<SuppliersComponent>)
+  private dialogRef:MatDialogRef<SuppliersComponent>, private sb:SnackbarService)
   {
 
     this.supplierForm=this.builder.group(
@@ -47,17 +48,16 @@ export class PopupComponent implements OnInit {
         console.log(this.supplierForm.value)
         this.master.addSupplier(this.supplierForm.value).subscribe(() =>
         {
-          alert('Supplier added succesfully');
+          this.sb.openSnackBar("Supplier","Supplier added succesfully !!");
           this.dialogRef.close(true);
-          console.log('successfully added data');
+
         })
       }
       else{
         this.master.updateSupplier(this.data.id,this.supplierForm.value).subscribe(() =>
         {
-          alert('Supplier updated succesfully');
+          this.sb.openSnackBar("Supplier","Supplier updated succesfully !!");
           this.dialogRef.close(true);
-          console.log('successfully updated data');
         })
 
       }

@@ -1,2 +1,116 @@
 <app-template></app-template>
-<app-template2></app-template2>
+<div class=" h-screen w-full">
+<div (click)="closeSidenav()" class="body overflow-x-scroll  bg-gray-200 max-phone:max-h-[1500px] phone:max-h-[1500px]  ml-[250px]
+ max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full desktop:h-screen"
+>
+  <div class="blue-header bg-white py-2 font-bold flex space-x-4 desktop:ml-1 mr-0 mt-16 right-0 w-full h-[34px]  max-desktop:w-[100%] max-desktop:ml-[0%]">
+    <mat-icon class="mat-18 ml-2">content_copy</mat-icon><span class="text-base">point of sale</span>
+  </div>
+  <div class="container  relative flex gap-16 p-4 max-laptop:flex-col ">
+    <div class="mt-4 ml-4 w-[500px]  pt-3 h-[580px] shadow-2xl bg-white max-laptop:mx-auto">
+      <h1 class="text-center font-bolder text-[#4250e6] mt-6">Point of Sale Form</h1>
+      <form class="pt-3 h-[440px] w-[500px] ml-5 relative mx-auto" [formGroup]="saleForm"  (ngSubmit)="registerSale()">
+          <mat-form-field class="w-[90%]" appearance="outline">
+            <mat-label class="text-[18px] text-blue-700" >Bulk_Selling_Price</mat-label>
+            <input class="w-[90%] py-1 "  formControlName="bulk_selling_price" type="number" matInput required>
+            <mat-error *ngIf="saleForm.hasError('required')" >This field is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-[90%]" appearance="outline">
+            <mat-label class="text-[18px] text-blue-700" >Retail_Selling_Price</mat-label>
+            <input class="w-[90%] py-1 "  formControlName="retail_selling_price" type="number"  matInput required>
+            <mat-error *ngIf="saleForm.hasError('required')" >This field is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-[90%]" appearance="outline">
+            <mat-label class="text-[18px] text-blue-700">Quantity</mat-label>
+            <input class="outline-blue-700" formControlName="quantity_sold" type="number" matInput required>
+            <mat-error *ngIf="saleForm.hasError('required')" >This field is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-[90%]" appearance="outline">
+            <mat-label class="text-[18px] text-blue-700">Date</mat-label>
+            <input  formControlName="date_sold" matInput required type="date">
+            <mat-error *ngIf="saleForm.hasError('required')" >This field is required</mat-error>
+          </mat-form-field >
+
+          <mat-form-field class="w-[90%]" appearance="outline">
+            <mat-select formControlName="product_id" placeholder="select product" name="product" required>
+              <mat-option>None</mat-option>
+                <mat-option *ngFor="let prod of product" [value]="prod.id">{{prod.product_name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="saleForm.hasError('required')" >This field is required</mat-error>
+          </mat-form-field>
+          <mat-form-field class="w-[90%]"  appearance="outline">
+            <mat-select formControlName="sale_id" class="text-[18px] text-blue-700" placeholder="sellers_name" required>
+              <mat-option [value]="sale.id" *ngFor="let sale of sales">{{sale.sellers_name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="saleForm.hasError('required')" >This field is required</mat-error>
+          </mat-form-field>
+          <div class="w-8 ml-[200px] mb-4 mx-auto">
+            <button (click)="saveProductsold()" class="mb-4 w-12 text-lg" type="submit" mat-raised-button color="primary">save</button>
+          </div>
+      </form>
+    </div>
+    <div class="p-4 bg-white table right-2 shadow-2xl">
+      <div class=" h-10 flex">
+        <span class="max-tablet:ml-1 ml-4 text-[#1046c6ba] mt-[6px]">Search:</span>
+
+        <input class="h-6 w-40 border- rounded-sm outline outline-[#1046c6ba] px-2 outline-[1px] mt-1" #filterValue  placeholder="Search Product">
+        <div class="p-2 w-10 h-8 text-center rounded-sm bg-[rgba(19,87,235,0.92)] " (click)="applyFilter(filterValue.value)">
+          <mat-icon class="mat-40 absolute -ml-[11px] -mt-[2px] text-white font-serif ">search</mat-icon>
+        </div>
+
+      </div>
+      <div class="overflow-x-scroll w-[620px]">
+        <mat-table matSort class="mt-4 h-[700px] ml-3 mr-3 min-w-[400px] mb-4 shadow-2xl desktop:w-[600px]"  #table [dataSource]="dataSource">
+          <ng-container>List of products</ng-container>
+          <!-- id Column -->
+          <ng-container class="mr-0" matColumnDef="id">
+            <mat-header-cell mat-sort-header class="text-white font-serif font-bold" *matHeaderCellDef> <mat-icon class="mat-18">sort</mat-icon>No. </mat-header-cell>
+            <mat-cell class="text-blue-700 font-serif font-bold"  *matCellDef="let element"> {{element.id}} </mat-cell>
+          </ng-container>
+
+          <!-- product Name Column -->
+          <ng-container matColumnDef="product_name">
+            <mat-header-cell mat-sort-header class="text-white font-serif font-bold" *matHeaderCellDef > Name </mat-header-cell>
+            <mat-cell   *matCellDef="let element" > {{element.product_name}} </mat-cell>
+          </ng-container>
+
+          <!-- cost_price Column -->
+          <ng-container matColumnDef="selling_price">
+            <mat-header-cell class="text-white font-serif font-bold"  *matHeaderCellDef mat-sort-header>Cost</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.selling_price | currency}} </mat-cell>
+          </ng-container>
+
+          <!-- email column -->
+          <ng-container matColumnDef="retail_quantity_stocked">
+            <mat-header-cell class="text-white font-serif font-bold"  *matHeaderCellDef>Quantity</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.retail_quantity_stocked}} </mat-cell>
+          </ng-container>
+
+
+
+          <!-- Action column  -->
+          <ng-container matColumnDef="Action">
+            <mat-header-cell class="text-white font-serif font-bold" *matHeaderCellDef>Action</mat-header-cell>
+            <mat-cell class="space-x-2 p-3" *matCellDef="let element">
+              <button (click)="deleteProduct(element)" mat-raised-button color="warn"><mat-icon class="mat-18">delete</mat-icon></button>
+            </mat-cell >
+          </ng-container>
+
+          <mat-header-row class="mx-1 bg-[#1357ebea]  text-white font-serif" *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row class=" bg-opacity-5 mx-1" *matRowDef="let row; columns: displayedColumns;"></mat-row>
+
+        </mat-table>
+      </div>
+      <mat-paginator class="min-w-[300px] rounded-b-md ml-3 mr-3 text-[#1357ebea]" #paginator
+                      [pageSize]="10"
+                      [pageSizeOptions]="[5, 10, 20]"
+                      [showFirstLastButtons]="false">
+      </mat-paginator >
+
+    </div>
+  </div>
+
+
+    <app-template2 class="w-full"></app-template2>
+</div><!-- end body -->
+</div>

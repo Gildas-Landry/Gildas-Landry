@@ -1,0 +1,5 @@
+<div class="text-center font-semibold text-[16px]">Are you sure to delete this {{message}} ?</div>
+<div class="flex space-x-4 mt-7 w-2 ml-14 mx-auto">
+  <button [mat-dialog-close]="false" class="bg-blue-600 rounded-md shadow-xl text-white p-2" color="warn" mat-raised-button type="button" (click)="closePopup()">Cancel</button>
+  <button (click)="deletes()"  class="bg-red-600 rounded-md shadow-xl text-white p-2">Delete</button>
+</div>

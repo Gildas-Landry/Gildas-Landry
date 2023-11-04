@@ -1,10 +1,8 @@
-
-
-<app-template></app-template>
+<app-template ></app-template>
 <!-- Here is my body -->
-
+<div class="overflow-y-scroll h-screen w-full">
   <div (click)="closeSidenav()" class="body con bg-gray-200 max-phone:max-h-[1500px] phone:max-h-[1500px]  ml-[250px]
-    max-desktop:w-full max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full desktop:min-h-screen"
+    max-desktop:w-screen max-desktop:ml-[0%] laptop:max-h-[1300px] phone:min-h-full desktop:min-h-screen"
   >
   <!-- Here is my blue header section -->
     <div class="
@@ -19,7 +17,7 @@
           <span class="max-phone:text-sm max-tablet:text-base text-lg opacity-50 font-normal">Manage your stocks professionally</span>
         </div>
         <div class="tablet:absolute tablet:right-2 max-tablet:relative ml-5 mt-4 laptop:right-4 desktop:right-8">
-          <input disabled #date class="brightness-100 bg-white rounded-md w-56 h-10  outline-none px-4" placeholder="Select data range" type="text">
+          <input disabled #date class="brightness-100 font-bold bg-white rounded-md w-56 h-10  outline-none px-4" placeholder="Select data range" type="text">
         </div>
       </div><!--End container-->
     </div><!--End header-->
@@ -28,51 +26,54 @@
 
         <div class="laptop:mt-4 box1 w-[87%] min-h-[150px] bg-[#135beb] rounded-md mx-auto text-center flex flex-col pt-4 space-y-4 shadow-md">
           <span class="text-white text-[17px] font-bold">Products Supplied</span>
-          <span class="text-white text-[28px] ">30</span>
+          <span class="text-white text-[28px] ">{{this.quantitysupplied}}</span>
           <hr>
-          <span routerLink="" class="text-white hover:cursor-pointer">view</span>
+          <span routerLink="/dashboard/ps" class="text-white hover:cursor-pointer">view</span>
         </div>
         <div class="box2 w-[87%] min-h-[150px] bg-yellow-500 opacity-100 rounded-md mx-auto text-center flex flex-col pt-4 space-y-4 shadow-md ">
           <span class="text-white text-[17px] font-bold">Products Sold</span>
-          <span class="text-white text-[28px] ">30</span>
+
+          <span  class="text-white text-[28px] ">{{this.quantitysold}}</span>
           <hr>
-          <span routerLink="" class="text-white hover:cursor-pointer">view</span>
+          <span routerLink="/dashboard/purchase" class="text-white hover:cursor-pointer">view</span>
         </div>
         <div class="box3 w-[87%] min-h-[150px] bg-green-600 opacity-100  rounded-md mx-auto text-center flex flex-col pt-4 space-y-4 shadow-md ">
-          <span class="text-white text-[17px] font-bold">Earnings(Monthly)</span>
-          <span class="text-white text-[28px] ">$3000</span>
+          <span  class="text-white text-[17px] font-bold">Earnings(Monthly)</span>
+          <span class="text-white text-[28px] ">{{monthlyearn | currency}}</span>
           <hr>
-          <span routerLink="" class="text-white hover:cursor-pointer">view</span>
+          <span routerLink="/dashboard" class="text-white hover:cursor-pointer">view</span>
         </div>
         <div class="box4 w-[87%] min-h-[150px] bg-red-600 rounded-md mx-auto text-center flex flex-col pt-4 space-y-4 shadow-md ">
           <span class="text-white text-[17px] font-bold">Earnings(Annual)</span>
           <span class="text-white text-[28px] ">$3000</span>
           <hr>
-          <span routerLink="" class="text-white hover:cursor-pointer">view</span>
+          <span routerLink="/dashboard" class="text-white hover:cursor-pointer">view</span>
         </div>
       </div>
 
       <div class="white-box phone:space-y-4 desktop:flex desktop:space-x-4 desktop:mx-4">
 
-        <div class="desktop:mt-4 left-box w-[87%] min-h-[200px] bg-white rounded-md mx-auto text-center flex flex-col pt-4 space-y-2
+        <div class="hover:cursor-pointer  desktop:mt-4 left-box w-[87%] min-h-[200px] bg-white rounded-md mx-auto text-center flex flex-col pt-4 space-y-2
           laptop:h-[230px] laptop:w-[84%] desktop:h-[300px] desktop:w-[80%]"
         >
           <span class="text-[#135beb] font-bold text-[17px]">Earnings</span>
           <hr>
+          <app-linechart class="ml-2 tablet:h-[80%] tablet:w-[90%]"></app-linechart>
         </div>
-        <div class="right-box w-[87%] min-h-[200px] bg-white rounded-md mx-auto text-center flex flex-col pt-4 space-y-2
+        <div class="right-box w-[87%] hover:cursor-pointer min-h-[200px] bg-white rounded-md mx-auto text-center flex flex-col pt-4 space-y-2
           laptop:h-[230px] laptop:w-[84%] desktop:h-[300px] desktop:w-[80%]"
         >
           <span class="text-[#135beb] font-bold text-[17px]">Monthly Revenue</span>
           <hr>
+          <app-barchart class="ml-2 tablet:w-[90%] tablet:h-[80%]"></app-barchart>
         </div>
       </div>
     </div>
-    <app-template2></app-template2>
+    <app-template2 class="bg-white"></app-template2>
 
   </div><!-- end body -->
 
-
+</div>
 
 
 

@@ -1,1 +1,7 @@
 
+.table-responsive{
+  overflow-x: scroll;
+}
+.con{
+  contain: content;
+}

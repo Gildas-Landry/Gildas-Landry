@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthGuard } from 'src/app/auth.guard';
 
 @Component({
   selector: 'app-template',
@@ -7,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TemplateComponent implements OnInit {
 
-  constructor() { }
+  constructor(private authguard:AuthGuard ) { }
 
   ngOnInit(): void {
   }
+
   showSidenav(){
    document.querySelector('.side-nav')?.classList.remove('max-desktop:hidden');
    document.querySelector('.body')?.classList.add('max-desktop:blur-sm');
