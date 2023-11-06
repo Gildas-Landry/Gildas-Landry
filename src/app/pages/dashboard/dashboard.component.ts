@@ -16,6 +16,7 @@ export class DashboardComponent implements OnInit {
   quantitysupplied:number=0;
   monthlyearn:number=0;
   ngOnInit(): void {
+    
     this.http.get('http://localhost:8000/purchase/mearning').subscribe({
       next:(response)=>{
         this.monthlyearn=+response;
